@@ -77,7 +77,9 @@ def merge_chrome_traces(
 ):
     merged_trace = {"traceEvents": []}
 
-    with concurrent.futures.ProcessPoolExecutor(max_workers=8) as executor:
+    with concurrent.futures.ProcessPoolExecutor(
+        max_workers=max(8, len(interesting_paths))
+    ) as executor:
         futures = [
             executor.submit(
                 process_trace_json, path, start_time_ms, end_time_ms, filter_names
